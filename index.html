@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Neighborhood Map Project: Udacity Project 6-1</title>
+    <script src="http://maps.googleapis.com/maps/api/js?v=3.23"></script>
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
+    <style>
+  		html,
+  		body,.container {
+  			height: 100%;
+  			margin: 0;
+  			padding: 0;
+  		}
+  		/*sets the map to the full view of the document*/
+
+  		#map {
+  			height: 100%;
+  			width: 100%;
+  			position: relative;
+  		}
+      #listView{
+        position: absolute;
+        top: 50%;
+        left:10px;
+      }
+      #listView>div{
+        font-size: 1.2em;
+      }
+  	</style>
+  </head>
+  <body>
+  <div class="container">
+  <div id="map"></div>
+  <div id="listView" data-bind="foreach:museumList">
+    <div class="listItem" data-bind="html:$data.title"></div>
+  </div>
+
+
+  </div>
+    <script src="js/app.js"></script>
+
+  </body>
+</html>
