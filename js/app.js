@@ -46,7 +46,7 @@ var initialMuseums = [
 	type:"science"
 	},
 	{
-	title: "Psychiatry Museum aka Museum of Death",
+	title: "Psychiatry an Industry of Death(aka Scientology <em>Propognada</em> Museum)",
 	location:{lat:34.097768,lng:-118.333751},
 	type:"science"
 	},
@@ -88,7 +88,7 @@ var map;
 var marker;
 var infowindow;
 var i;
-var content = '';
+var content;
 
 
 function ViewModel(){
@@ -96,23 +96,36 @@ function ViewModel(){
 	markers = [];
 
 	self.museumList = ko.observableArray(initialMuseums);
-	$('.listItem').click(function(){
-		infowindow.setContent(content);
 
-		});
 
-  // initialMuseums.forEach(function(museumItem){
-  //   self.museumList().push(new Museum(museumItem));
-	// 	return;
-	//
-  // });
+
 	//declares current Museum
 	self.currentMuseum = ko.observable(this.museumList()[0]);
 
 	//sets query observable for search/filtering museumList
 	self.query = ko.observable('');
+
+	self.search = ko.computed(function() {
+	        return ko.utils.arrayFilter(self.museumList(), function(listResult) {
+	            //Match search with items in sortedLocations() observable array
+	            var match = listResult.title.toLowerCase().indexOf(self.query().toLowerCase()) >= 0;
+
+	            if (match) { //If result is true, show correct marker based off users search
+	                listResult.marker.setVisible(true);
+
+	            } else {
+	                listResult.marker.setVisible(false); //hide markers that do not show users search results
+	            }
+
+	            return match;
+
+	        });
+	        map.setZoom(13);
+	    });
+
+
 	//initialize map
-  initMap = function() {
+  var initMap = function() {
       var myLatLng = {lat: 34.01708, lng: -118.2886};
       //set map options
       var mapOptions = {
@@ -127,10 +140,11 @@ function ViewModel(){
 		};
 
       var len = self.museumList().length;
-			//set marker for each location in museum list
 
+			//set marker for each location in museum list
 			//places markers and sets infowindow
-	setMarkers = function(){
+	var addMarkers = function(){
+			// clearMarkers();
 			for (i = 0; i < len; i++) {
       marker = new google.maps.Marker({
              position: new google.maps.LatLng(self.museumList()[i].location),
@@ -147,7 +161,7 @@ function ViewModel(){
     //opens infowindow when marker is clicked, also sets content of the inforwindow
 		google.maps.event.addListener(marker, 'click', (function(marker, i) {
            return function() {
-               infowindow.setContent(self.museumList()[i].title);
+               infowindow.setContent(content);
                infowindow.open(map, marker);
 							 //marker bounces on click
 							 marker.setAnimation(google.maps.Animation.BOUNCE);
@@ -158,12 +172,15 @@ function ViewModel(){
 
            };
       })(marker, i));
+
       }
+
   };
+
 
 //initialize map and markers/infowindows
 initMap();
-setMarkers();
+addMarkers();
 
 //AJAX requests for content
 //wikipedia
