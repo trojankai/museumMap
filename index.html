@@ -3,10 +3,13 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Neighborhood Map Project: Udacity Project 6-1</title>
-    <script src="http://maps.googleapis.com/maps/api/js?v=3.23" ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+  <script async src="http://maps.googleapis.com/maps/api/js?v=3.23&key=AIzaSyDRkBXSXhu5njQZnozLK-utnXR3h-pQ-T8&callback=initMap"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
+
+    <title>Neighborhood Map Project: Udacity Project 6-1</title>
+
     <!-- link normalize css -->
     <link rel="stylesheet" href="css/lib/normalize.css" media="screen" charset="utf-8">
     <style>
@@ -17,12 +20,12 @@
   			padding: 0;
   		}
   		/*sets the map to the full view of the document*/
-  .container{
-    background-color: gray;
-  }
+      .container{
+      background-color: gray;
+        }
   		#map {
   			height: 100%;
-  			width: 75%;
+  			width: 70%;
   			position: relative;
         float: right;
   		}
@@ -31,13 +34,15 @@
         top: 10%;
         left:10px;
         max-width: 25%;
+        list-style: none;
       }
-      #listView>div{
+      #listView>li{
         font-size: 1em;
         line-height: 1.5em;
       }
-      #listView>div:hover{
+      #listView>li:hover{
         color: white;
+        cursor: pointer;
 
       }
       input{
@@ -50,12 +55,14 @@
   <body>
   <div class="container">
     <div id="map"></div>
-    <input data-bind="textInput: query, valueUpdate: 'keyup'" />
-    <div id="listView" data-bind="foreach:museumList">
-      <div id="listItem" data-bind="html:$data.name"></div>
-    </div>
+    <!-- <input placeholder="Search…" type="search" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off"> -->
+    <ul id="listView" data-bind="foreach:museumList">
+    <li id="listItem" data-bind="html: $data.name"></li>
+  </ul>
   </div>
-  <script src="js/script.js"></script>
+
+
+  <script src="js/startover.js"></script>
 
   </body>
 </html>

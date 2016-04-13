@@ -1,4 +1,3 @@
-//model
 var initialMuseums = [
 	{
 	name: "Los Angeles County Museum of Art",
@@ -7,14 +6,14 @@ var initialMuseums = [
 	},
 	{
 	name: "Museum of Contemporary Art, Los Angeles",
-	location:{lat:34.052234,
-	lng:-118.243685},
+	location:{lat:34.053265,
+	lng:-118.250357},
 	type:"art"
 	},
 	{
 	name: "The Grammy Museum",
-	location: {lat:34.044820,
-		lng:-118.265384},
+	location: {lat:34.044902,
+		lng:-118.264815},
 	type:"art"
 	},
 	{
@@ -76,6 +75,7 @@ var initialMuseums = [
 	type:"cultural"
 	}
 ];
+
 // constructor function
 function Museum(data) {
   this.name = ko.observable(data.name);
@@ -84,80 +84,115 @@ function Museum(data) {
 
 }
 
+//global declarations to insure in scope
+
 var map;
 var marker;
 var infowindow;
-var i;
-var content = 'vm.museumList().name';
+var markers = [];
+var google;
+// var initialize;
 
-
-//initialize map
-
-function initMap(){
-  var myLatLng = {lat: 34.09, lng: -118.2886};
-  var mapOptions = {
-    center: myLatLng ,
-    zoom: 12,
-    draggable: true,
-    disableDefaultUI: true
-  };
-  map = new google.maps.Map(document.getElementById('map'),mapOptions);
-}
-initMap();
-
+var artIcon = 'images/museum-512.svg';
 //ViewModel
-
 function ViewModel(){
 	var self = this;
-	markers = [];
 
+	//copies initialMuseums to observableArray
+	self.museumList = ko.observableArray(initialMuseums.slice());
+	console.log(self.museumList());
 
-	self.museumList = ko.observableArray(initialMuseums);
-	// console.log(self.museumList());
-
-//makes a marker for each museum
+	//set mapOptions and link to DOM
+	initialize = function(){
+		var myLatLng = {lat:34.076472, lng: -118.287430};
+		var mapOptions = {
+			center: myLatLng ,
+			zoom: 12,
+			mapTypeId: google.maps.MapTypeId.ROADMAP,
+			draggable: true,
+			disableDefaultUI: true
+		};
+		map = new google.maps.Map(document.getElementById('map'),mapOptions);
+	//set marker for locations in the museumlist
 	self.museumList().forEach(function(museumLocation){
 			marker = new google.maps.Marker({
 				position: museumLocation.location,
 				map:map,
-				icon:'images/art.svg',
+				label: museumLocation.type,
+				title: museumLocation.name,
+				icon:artIcon,
 				animation: google.maps.Animation.DROP
 			});
-			// console.log(markers);
+		// console.log(museumLocation);
+		// 	console.log(marker);
 		markers.push(marker);
 	});
 
-//Map infowindows to each marker in markers array
+
+	// Map infowindows to each marker in markers array
 	markers.forEach(function(marker){
+	//create infowindow for each marker in the marker array
 		infowindow = new google.maps.InfoWindow({
-			content: content
+			content: ''
 		});
+
 		//on click marker will bounce
 		marker.addListener('click',function(){
 			infowindow.open(map, this);
+			infowindow.setContent(marker.title +'<br>'+ marker.label);
 			marker.setAnimation(google.maps.Animation.BOUNCE);
+
 			setTimeout(function(){
 				marker.setAnimation(null);
 			},2000);//stops bouncing after 2 seconds
 		});
-
-		console.log(infowindow);
 	});
-
-
-
-
-	//declares current Museum
+};//map
+	var listViewClick = function(museum) {
+		if (this.name) {
+				// 	console.log(this.name);
+			 map.setZoom(16); //Zoom map view
+			 map.panTo(this.location); // Pan to correct marker when list view item is clicked
+			 infowindow.open(map, museum.location);
+			//  for (var i = 0; i > self.museumList();i++){
+			//
+			// 	 console.log(markers[i]);
+			// 	 if (this.name === markers[i].title){
+			// 	 markers[i].setAnimation(google.maps.Animation.BOUNCE); // Bounce marker when list view item is clicked
+			//
+			// 	  // Open info window on correct marker when list item is clicked
+			// 	 self.query(this.name);
+			//  }
+			//  console.log(markers[this]);
+			// //  console.log(this);
+			//
+			//  }
+		 }
+				setTimeout(function() {
+						this.marker.setAnimation(null); // End animation on marker after 2 seconds
+				}, 2000);
+};
+	//declares current Museum--per catclicker example
 	self.currentMuseum = ko.observable(this.museumList()[0]);
-
-//sets query observable for search/filtering museumList
-self.query = ko.observable('');
-
+	//sets query observable for search/filtering museumList
+	self.query = ko.observable('');
 
 
+// 	self.search = function(value) {
+// 		self.museumList().length = 0;
+// 		console.log(self.museumList());
+// 		for(var x in initialMuseums) {
+//       if(initialMuseums[x].name.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
+//         self.museumList().push(initialMuseums[x]);
+// 	}
+// }};
 
 }//end of ViewModel
-var vm = new ViewModel();
-$(document).ready(function() {
-    ko.applyBindings(vm);
-});
+
+
+// viewM is a new instance of viewModel
+var viewM = new ViewModel();
+
+
+// activates ko bindings on viewM
+ko.applyBindings(viewM);
