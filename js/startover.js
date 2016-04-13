@@ -81,7 +81,7 @@ var content = '';
 
 //Declare Map variable and markers array
 var map;
-var infoWindow;
+var infowindow;
 var markers = [];
 var marker;
 var google;
@@ -123,7 +123,7 @@ function ViewModel() {
 
 		self.museumList = ko.observableArray(initialMuseums);
 
-		console.log(self.museumList());//14
+		console.log(self.museumList());//14 objects
 
 		//query--search/filter variable to use for bind
 		self.query = ko.observable('');

@@ -91,9 +91,9 @@ var marker;
 var infowindow;
 var markers = [];
 var google;
-// var initialize;
+var initMap;
 
-var artIcon = 'images/museum-512.svg';
+var artIcon = 'images/art_icon.svg';
 //ViewModel
 function ViewModel(){
 	var self = this;
@@ -103,7 +103,7 @@ function ViewModel(){
 	console.log(self.museumList());
 
 	//set mapOptions and link to DOM
-	initialize = function(){
+	initMap = function(){
 		var myLatLng = {lat:34.076472, lng: -118.287430};
 		var mapOptions = {
 			center: myLatLng ,
@@ -133,7 +133,6 @@ function ViewModel(){
 	markers.forEach(function(marker){
 	//create infowindow for each marker in the marker array
 		infowindow = new google.maps.InfoWindow({
-			content: ''
 		});
 
 		//on click marker will bounce
@@ -148,12 +147,14 @@ function ViewModel(){
 		});
 	});
 };//map
-	var listViewClick = function(museum) {
-		if (this.name) {
-				// 	console.log(this.name);
-			 map.setZoom(16); //Zoom map view
-			 map.panTo(this.location); // Pan to correct marker when list view item is clicked
-			 infowindow.open(map, museum.location);
+
+	
+	// var listViewClick = function(museum) {
+	// 	if (this.name) {
+	// 		console.log(this.name);
+	// 		map.setZoom(16); //Zoom map view
+	// 		map.panTo(this.location); // Pan to correct marker when list view item is clicked
+	// 		infowindow.open(map, museum.location);
 			//  for (var i = 0; i > self.museumList();i++){
 			//
 			// 	 console.log(markers[i]);
@@ -167,25 +168,16 @@ function ViewModel(){
 			// //  console.log(this);
 			//
 			//  }
-		 }
-				setTimeout(function() {
-						this.marker.setAnimation(null); // End animation on marker after 2 seconds
-				}, 2000);
-};
+
+// 				setTimeout(function() {
+// 						this.marker.setAnimation(null); // End animation on marker after 2 seconds
+// 				}, 2000);
+// };
 	//declares current Museum--per catclicker example
 	self.currentMuseum = ko.observable(this.museumList()[0]);
 	//sets query observable for search/filtering museumList
 	self.query = ko.observable('');
 
-
-// 	self.search = function(value) {
-// 		self.museumList().length = 0;
-// 		console.log(self.museumList());
-// 		for(var x in initialMuseums) {
-//       if(initialMuseums[x].name.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
-//         self.museumList().push(initialMuseums[x]);
-// 	}
-// }};
 
 }//end of ViewModel
 

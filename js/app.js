@@ -87,14 +87,16 @@ function Museum(data) {
 var map;
 var marker;
 var infowindow;
-var i;
+var initMap;
 var content;
+var google;
 
 
 function ViewModel(){
   var self = this;
 	markers = [];
 
+	//array of object instead of array of Museums
 	self.museumList = ko.observableArray(initialMuseums);
 
 
@@ -110,22 +112,21 @@ function ViewModel(){
 	            //Match search with items in sortedLocations() observable array
 	            var match = listResult.title.toLowerCase().indexOf(self.query().toLowerCase()) >= 0;
 
-	            if (match) { //If result is true, show correct marker based off users search
-	                listResult.marker.setVisible(true);
-
-	            } else {
-	                listResult.marker.setVisible(false); //hide markers that do not show users search results
-	            }
-
-	            return match;
+	            // if (match) { //If result is true, show correct marker based off users search
+	            //     listResult.marker.setVisible(true);
+							//
+	            // } else {
+	            //     listResult.marker.setVisible(false); //hide markers that do not show users search results
+	            // }
+							//
+	            // return match;
 
 	        });
-	        map.setZoom(13);
 	    });
 
 
 	//initialize map
-  var initMap = function() {
+  initMap = function() {
       var myLatLng = {lat: 34.01708, lng: -118.2886};
       //set map options
       var mapOptions = {
@@ -179,7 +180,7 @@ function ViewModel(){
 
 
 //initialize map and markers/infowindows
-initMap();
+
 addMarkers();
 
 //AJAX requests for content
