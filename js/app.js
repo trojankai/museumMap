@@ -138,6 +138,7 @@ function ViewModel(){
       };
       //instantiate new map
       map = new google.maps.Map(document.getElementById('map'), mapOptions);
+			addMarkers();
 		};
 
       var len = self.museumList().length;
@@ -181,7 +182,7 @@ function ViewModel(){
 
 //initialize map and markers/infowindows
 
-addMarkers();
+
 
 //AJAX requests for content
 //wikipedia
@@ -189,6 +190,4 @@ addMarkers();
 }
 var vm = new ViewModel();
 
-$(document).ready(function() {
-    ko.applyBindings(vm);
-});
+ko.applyBindings(vm);
