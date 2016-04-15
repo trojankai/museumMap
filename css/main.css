@@ -1,0 +1,15 @@
+@media (max-width:480px) {
+  *{
+    font-size: 12px;
+    font-weight: 200;
+    }
+  #map{
+    
+  }
+  ul#listView{
+    margin:0;
+    padding:0;
+    line-height: 1.1em;
+    line-spacing: 1.2em;
+  }
+}
