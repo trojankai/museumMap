@@ -151,6 +151,7 @@ function ViewModel() {
 					//on click marker will bounce
 					marker.addListener('click',function(){
 						map.panTo(this.internalPosition);
+						map.setZoom(18);
 						infowindow.open(map, this);
 						infowindow.setContent(marker.title);
 						marker.setAnimation(google.maps.Animation.BOUNCE);
