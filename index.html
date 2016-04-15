@@ -12,6 +12,7 @@
 
     <!-- link normalize css -->
     <link rel="stylesheet" href="css/lib/normalize.css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="css/main.css">
     <style>
   		html,
   		body,.container {
@@ -57,7 +58,7 @@
     <div id="map"></div>
     <!-- <input placeholder="Search…" type="search" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off"> -->
     <ul id="listView" data-bind="foreach: museumList">
-      <li id="listItem" data-bind="text: $data.name"></li>
+      <li id="listItem" data-bind="text: $data.name, click:$parent.listClick"></li>
     </ul>
   </div>
 

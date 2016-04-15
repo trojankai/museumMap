@@ -117,7 +117,7 @@ function ViewModel() {
 
     var self = this;
 
-		self.museumList = ko.observableArray(initialMuseums);
+		this.museumList = ko.observableArray(initialMuseums);
 
 		console.log(self.museumList());//14 objects
 
@@ -148,10 +148,10 @@ function ViewModel() {
 				//create infowindow for each marker in the marker array
 					infowindow = new google.maps.InfoWindow({
 					});
-					//on click marker will bounce
+					//on click marker will bounce, set marker to center and zoom in to location
 					marker.addListener('click',function(){
-						map.panTo(this.internalPosition);
-						map.setZoom(18);
+						map.panTo(this.position);
+						map.setZoom(16);
 						infowindow.open(map, this);
 						infowindow.setContent(marker.title);
 						marker.setAnimation(google.maps.Animation.BOUNCE);
@@ -161,8 +161,14 @@ function ViewModel() {
 						},2000);//stops bouncing after 2 seconds
 					});
 				});
-		};
 
+		};
+		console.log(self.museumList()[0].Symbol);
+		var listClick = function(listItem){
+			if(self.museumList().name){
+				console.log(this.Symbol);
+			}
+		};
 
 
 
