@@ -148,9 +148,9 @@ function ViewModel() {
 				//create infowindow for each marker in the marker array
 					infowindow = new google.maps.InfoWindow({
 					});
-
 					//on click marker will bounce
 					marker.addListener('click',function(){
+						map.panTo(this.internalPosition);
 						infowindow.open(map, this);
 						infowindow.setContent(marker.title);
 						marker.setAnimation(google.maps.Animation.BOUNCE);
