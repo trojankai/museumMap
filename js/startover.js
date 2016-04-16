@@ -172,7 +172,15 @@ function ViewModel() {
 	console.log(this.museumList());
 	this.clickList = function(){
 		console.log(this.name);
+		console.log(markers);
+		for (var i = 0; i < markers.length; i++) {
+			if (this.name === markers[i].title){
+				map.setCenter(markers[i].position);
+				map.setZoom(14);
+				console.log(markers[i]);
+		} 
 
+		}
 
 
 	};
