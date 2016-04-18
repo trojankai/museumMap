@@ -90,6 +90,7 @@ var markers = [];
 var marker;
 var google;
 
+
 function Museum(value) {
     this.name = ko.observable(value.name);
     this.location = ko.observable(value.location);
@@ -127,7 +128,7 @@ function ViewModel() {
 
 
 		//set up markers for museum array
-		var addMarkers = function() {
+	 var addMarkers = function() {
 			for (var i = 0; i < self.museumList().length; i++) {
 				marker = new google.maps.Marker({
 					position: self.museumList()[i].location,
@@ -161,29 +162,33 @@ function ViewModel() {
 						},2000);//stops bouncing after 2 seconds
 					});
 				});
-				map.addListener('click', function() {
-					map.setCenter({lat:34.076472, lng: -118.287430});
-					map.setZoom(12);
-					infowindow.close();
-				});
-
+					map.addListener('click', function() {
+						map.setCenter({lat:34.076472, lng: -118.287430});
+						map.setZoom(12);
+						infowindow.close();
+					});
 		};
 
-	console.log(this.museumList());
+	// console.log(this.museumList());
+	//when list item is clicked, marker will DROP animate and infowindow will open
 	this.clickList = function(){
 		console.log(this.name);
+		infowindow.close();
 		console.log(markers);
 		for (var i = 0; i < markers.length; i++) {
 			if (this.name === markers[i].title){
 				map.setCenter(markers[i].position);
-				map.setZoom(14);
-				console.log(markers[i]);
-		} 
-
+				map.setZoom(16);
+				console.log(markers[i].title);
+				infowindow.open(map, markers[i]);
+				infowindow.setContent(markers[i].title);
+				markers[i].setAnimation(google.maps.Animation.DROP);
+				self.query = (this.name);
+				console.log(self.query);
+			}
 		}
-
-
 	};
+
 
 
 }//end of ViewModel

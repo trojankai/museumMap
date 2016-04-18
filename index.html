@@ -35,11 +35,20 @@
         top: 10%;
         left:10px;
         max-width: 25%;
+        max-height: 100%;
         list-style: none;
+        padding-left: 0;
+        margin: 0 auto;
+        background: rgb(31, 151, 199)
+
       }
       #listView>li{
         font-size: 1em;
+        padding-bottom: 1.8em;
         line-height: 1.5em;
+        -webkit-box-shadow: 7px 6px 26px 0px rgba(209,209,209,0.68);
+-moz-box-shadow: 7px 6px 26px 0px rgba(209,209,209,0.68);
+box-shadow: 7px 6px 26px 0px rgba(209,209,209,0.68);
       }
       #listView>li:hover{
         color: white;
@@ -56,7 +65,7 @@
   <body>
   <div class="container">
     <div id="map"></div>
-    <!-- <input placeholder="Search…" type="search" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off"> -->
+    <input placeholder="Search…" type="search" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off">
     <ul id="listView" data-bind="foreach: museumList">
       <li id="listItem" data-bind="text: $data.name, click:$parent.clickList"></li>
     </ul>
