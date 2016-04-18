@@ -102,23 +102,23 @@ function Museum(value) {
 //ViewModel
 function ViewModel() {
 
-	initMap = function(){
-		var myLatLng = {lat:34.076472, lng: -118.287430};
-		var mapOptions = {
-			center: myLatLng ,
-			zoom: 12,
-			mapTypeId: google.maps.MapTypeId.ROADMAP,
-			draggable: true,
-			disableDefaultUI: true
+		initMap = function(){
+			var myLatLng = {lat:34.076472, lng: -118.287430};
+			var mapOptions = {
+				center: myLatLng ,
+				zoom: 12,
+				mapTypeId: google.maps.MapTypeId.ROADMAP,
+				draggable: true,
+				disableDefaultUI: true
+			};
+			map = new google.maps.Map(document.getElementById('map'),mapOptions);
+			addMarkers();
 		};
-		map = new google.maps.Map(document.getElementById('map'),mapOptions);
-		addMarkers();
-	};
 
     var self = this;
 
-		this.museumList = ko.observableArray(initialMuseums);
-
+		self.museumList = ko.observableArray(initialMuseums);
+		self.currentMuseum = ko.observable();
 		console.log(self.museumList());//14 objects
 
 		//query--search/filter variable to use for bind
@@ -141,8 +141,8 @@ function ViewModel() {
 				markers.push(marker);
 
 			}
-				markers.push(marker);
-				console.log(markers);
+
+				console.log(markers);//14 markers
 				// Map infowindows to each marker in markers array
 				markers.forEach(function(marker){
 				//create infowindow for each marker in the marker array
@@ -161,15 +161,29 @@ function ViewModel() {
 						},2000);//stops bouncing after 2 seconds
 					});
 				});
+				map.addListener('click', function() {
+					map.setCenter({lat:34.076472, lng: -118.287430});
+					map.setZoom(12);
+					infowindow.close();
+				});
 
 		};
-		console.log(self.museumList()[0].Symbol);
-		var listClick = function(listItem){
-			if(self.museumList().name){
-				console.log(this.Symbol);
-			}
-		};
 
+	console.log(this.museumList());
+	this.clickList = function(){
+		console.log(this.name);
+		console.log(markers);
+		for (var i = 0; i < markers.length; i++) {
+			if (this.name === markers[i].title){
+				map.setCenter(markers[i].position);
+				map.setZoom(14);
+				console.log(markers[i]);
+		} 
+
+		}
+
+
+	};
 
 
 }//end of ViewModel
