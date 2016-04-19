@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300italic,300' rel='stylesheet' type='text/css'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
   <script async src="http://maps.googleapis.com/maps/api/js?v=3.23&key=AIzaSyDRkBXSXhu5njQZnozLK-utnXR3h-pQ-T8&callback=initMap"></script>
@@ -30,43 +31,14 @@
   			position: relative;
         float: right;
   		}
-      #listView{
-        position: absolute;
-        top: 10%;
-        left:10px;
-        max-width: 25%;
-        max-height: 100%;
-        list-style: none;
-        padding-left: 0;
-        margin: 0 auto;
-        background: rgb(31, 151, 199)
 
-      }
-      #listView>li{
-        font-size: 1em;
-        padding-bottom: 1.8em;
-        line-height: 1.5em;
-        -webkit-box-shadow: 7px 6px 26px 0px rgba(209,209,209,0.68);
--moz-box-shadow: 7px 6px 26px 0px rgba(209,209,209,0.68);
-box-shadow: 7px 6px 26px 0px rgba(209,209,209,0.68);
-      }
-      #listView>li:hover{
-        color: white;
-        cursor: pointer;
-
-      }
-      input{
-        position: absolute;
-        top: 5%;
-        left: 10px;
-      }
   	</style>
   </head>
   <body>
   <div class="container">
     <div id="map"></div>
     <input placeholder="Search…" type="search" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off">
-    <ul id="listView" data-bind="foreach: museumList">
+    <ul id="listView" data-bind="foreach: search">
       <li id="listItem" data-bind="text: $data.name, click:$parent.clickList"></li>
     </ul>
   </div>

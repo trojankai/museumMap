@@ -124,11 +124,29 @@ function ViewModel() {
 
 		//query--search/filter variable to use for bind
 		self.query = ko.observable('');
+		self.search = ko.computed(function() {
+        return ko.utils.arrayFilter(self.museumList(), function(museum) {
+            //Match search with items in sortedLocations() observable array
+            var match = museum.name.toLowerCase().indexOf(self.query().toLowerCase()) >= 0;
 
+            if (match) { //If result is true, show correct marker based off users search
+							console.log(museum.location);
+                // museum.marker.setVisible(true);
+
+            } else {
+                // museum.marker.setVisible(false); //hide markers that do not show users search results
+								console.log(self, museum.name);
+            }
+
+            return match;
+
+        });
+
+    });
 
 
 		//set up markers for museum array
-	 var addMarkers = function() {
+	 addMarkers = function() {
 			for (var i = 0; i < self.museumList().length; i++) {
 				marker = new google.maps.Marker({
 					position: self.museumList()[i].location,
@@ -140,6 +158,7 @@ function ViewModel() {
 				// console.log(museumLocation);
 				// 	console.log(marker);
 				markers.push(marker);
+
 
 			}
 
@@ -167,6 +186,7 @@ function ViewModel() {
 						map.setZoom(12);
 						infowindow.close();
 					});
+						return markers;
 		};
 
 	// console.log(this.museumList());
