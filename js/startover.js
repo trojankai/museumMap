@@ -98,11 +98,10 @@ function Museum(value) {
 
 }
 
-//initialize map
 
 //ViewModel
 function ViewModel() {
-
+	//map properties to initialize
 		initMap = function(){
 			var myLatLng = {lat:34.076472, lng: -118.287430};
 			var mapOptions = {
@@ -122,13 +121,11 @@ function ViewModel() {
 		self.currentMuseum = ko.observable();
 		console.log(self.museumList());//14 objects
 
-		//query--search/filter variable to use for bind
-		self.query = ko.observable('');
 
 
 
 		//set up markers for museum array
-	 var addMarkers = function() {
+	 addMarkers = function() {
 			for (var i = 0; i < self.museumList().length; i++) {
 				marker = new google.maps.Marker({
 					position: self.museumList()[i].location,
@@ -140,6 +137,7 @@ function ViewModel() {
 				// console.log(museumLocation);
 				// 	console.log(marker);
 				markers.push(marker);
+
 
 			}
 
@@ -167,6 +165,7 @@ function ViewModel() {
 						map.setZoom(12);
 						infowindow.close();
 					});
+						return markers;
 		};
 
 	// console.log(this.museumList());
@@ -183,12 +182,31 @@ function ViewModel() {
 				infowindow.open(map, markers[i]);
 				infowindow.setContent(markers[i].title);
 				markers[i].setAnimation(google.maps.Animation.DROP);
-				self.query = (this.name);
-				console.log(self.query);
+				// self.query = (this.name);
+				// console.log(self.query);
 			}
+
 		}
 	};
+	//query--search/filter variable to use for data bind
+	self.query = ko.observable('');
+	self.search = ko.computed(function() {
+			return ko.utils.arrayFilter(self.museumList(), function(museum) {
+					//Match search with items in museumList observable array
+					var match = museum.name.toLowerCase().indexOf(self.query().toLowerCase()) >= 0;//returns boolean value
+					markers.forEach(function(museum){
+						console.log(markers);
 
+					});
+
+					// console.log(typeof match);
+
+					return match;
+
+
+			});
+
+	});
 
 
 }//end of ViewModel
