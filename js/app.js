@@ -98,86 +98,86 @@ function Museum(value) {
 
 }
 
+//instance of google map
+var initMap = function(){
+	var myLatLng = {lat:34.076472, lng: -118.287430};
+	var mapOptions = {
+		center: myLatLng ,
+		zoom: 12,
+		mapTypeId: google.maps.MapTypeId.ROADMAP,
+		draggable: true,
+		disableDefaultUI: true
+	};
+	map = new google.maps.Map(document.getElementById('map'),mapOptions);
 
+	// addMarkers();
+};
 //ViewModel
 function ViewModel() {
 	//map properties to initialize
-		initMap = function(){
-			var myLatLng = {lat:34.076472, lng: -118.287430};
-			var mapOptions = {
-				center: myLatLng ,
-				zoom: 12,
-				mapTypeId: google.maps.MapTypeId.ROADMAP,
-				draggable: true,
-				disableDefaultUI: true
-			};
-			map = new google.maps.Map(document.getElementById('map'),mapOptions);
-			
-			// addMarkers();
-		};
+
 
     var self = this;
 		self.markers = [];
 
 		self.museumList = ko.observableArray(initialMuseums);
-
-
 		console.log(self.museumList());//14 objects
 
-		// self.museumList().forEach(function(museumLoc){
-		// 	marker = new google.maps.Marker({
-		// 			position: museumLoc.location,
-		// 			map: map,
-		// 			title: museumLoc.name,
-		// 			icon: museumLoc.type,
-		// 			animation: google.maps.Animation.DROP
-		// 	});
-		//
-		// 	museumLoc.marker = marker;
-		// 	// console.log(museumLocation);
-		// 	// 	console.log(marker);
-		// 	this.markers.push(marker);
-		//
-		// });
+		self.museumList().forEach(function(museumLoc){
+			marker = new google.maps.Marker({
+					position: museumLoc.location,
+					map: map,
+					title: museumLoc.name,
+					icon: museumLoc.type,
+					animation: google.maps.Animation.DROP
+			});
+
+			museumLoc.marker = marker;
+			// console.log(museumLocation);
+			// 	console.log(marker);
+			this.markers.push(marker);
+
+		});
 
 
 		//set up markers for museum array
 	//  addMarkers = function() {
-			for (var i = 0; i < self.museumList().length; i++) {
-				marker = new google.maps.Marker({
-					position: self.museumList()[i].location,
-					map: map,
-					title: self.museumList()[i].name,
-					icon:self.museumList()[i].type,
-					animation: google.maps.Animation.DROP
-				});
-				// console.log(museumLocation);
-				// 	console.log(marker);
-				markers.push(marker);
-	 //
-	 //
-			}
+	// 		for (var i = 0; i < self.museumList().length; i++) {
+	// 			marker = new google.maps.Marker({
+	// 				position: self.museumList()[i].location,
+	// 				map: map,
+	// 				title: self.museumList()[i].name,
+	// 				icon:self.museumList()[i].type,
+	// 				animation: google.maps.Animation.DROP
+	// 			});
+	// 			// console.log(museumLocation);
+	// 			// 	console.log(marker);
+	// 			markers.push(marker);
+	//  //
+	//  //
+	// 		}
 
 				console.log(markers);//14 markers
 				// Map infowindows to each marker in markers array
-				self.markers.forEach(function(marker){
+				self.markers.map(function(infoMark){
 				//create infowindow for each marker in the marker array
 					infowindow = new google.maps.InfoWindow({
 						content:this.title
 					});
 					//on click marker will bounce, set marker to center and zoom in to location
-					marker.addListener('click',function(){
+					infoMark.addListener('click',function(){
 						map.panTo(this.position);
 						map.setZoom(16);
 						infowindow.open(map, this);
 						// infowindow.setContent(marker.title);
-						marker.setAnimation(google.maps.Animation.BOUNCE);
+						infoMark.setAnimation(google.maps.Animation.BOUNCE);
 
 						setTimeout(function(){
-							marker.setAnimation(null);
+							infoMark.setAnimation(null);
 						},2000);//stops bouncing after 2 seconds
 					});
 				});
+
 				//when map is clicked away from marker, map will reset
 					map.addListener('click', function() {
 						map.setCenter({lat:34.076472, lng: -118.287430});
@@ -190,25 +190,24 @@ function ViewModel() {
 
 	// console.log(this.museumList());
 	//when list item is clicked, marker will DROP animate and infowindow will open
-	// this.clickList = function(){
-	// 	console.log(this.name);
-	// 	infowindow.close();
-	// 	console.log(self.markers);
-	// 	for (var i = 0; i < self.markers.length; i++) {
-	// 		if (this.name === markers[i].title){
-	//
-	// 			map.setCenter(markers[i].position);
-	// 			map.setZoom(16);
-	// 			console.log(markers[i].title);
-	// 			infowindow.open(map, markers[i]);
-	// 			infowindow.setContent(markers[i].title);
-	// 			markers[i].setAnimation(google.maps.Animation.DROP);
-	// 			// self.query = (this.name);
-	// 			// console.log(self.query);
-	// 		}
-	//
-	// 	}
-	// };
+	this.clickList = function(museum){
+		console.log(this.name);
+		infowindow.close();
+		console.log(self.markers);
+		if(this.name) {
+			map.setZoom(15); //Zoom map view
+			map.panTo(this.location); // Pan to correct marker when list view item is clicked
+			museum.marker.setAnimation(google.maps.Animation.BOUNCE); // Bounce marker when list view item is clicked
+			infoWindow.open(map, museum.marker); // Open info window on correct marker when list item is clicked
+			self.query(this.name);
+	}
+	 setTimeout(function() {
+			 museum.marker.setAnimation(null); // End animation on marker after 2 seconds
+	 }, 2000);
+ };
+
+
+
 	//query--search/filter variable to use for data bind
 	self.query = ko.observable('');
 	self.search = ko.computed(function() {
