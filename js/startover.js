@@ -1,7 +1,8 @@
+//icons
 var art = 'images/art_icon.svg';
 var cultural = 'images/culture_icon.svg';
 var science = 'images/tech_icon.svg';
-
+//Model
 var initialMuseums = [
 	{
 	name: "Los Angeles County Museum of Art",
@@ -176,6 +177,7 @@ function ViewModel() {
 		console.log(markers);
 		for (var i = 0; i < markers.length; i++) {
 			if (this.name === markers[i].title){
+
 				map.setCenter(markers[i].position);
 				map.setZoom(16);
 				console.log(markers[i].title);
@@ -194,10 +196,22 @@ function ViewModel() {
 			return ko.utils.arrayFilter(self.museumList(), function(museum) {
 					//Match search with items in museumList observable array
 					var match = museum.name.toLowerCase().indexOf(self.query().toLowerCase()) >= 0;//returns boolean value
-					markers.forEach(function(museum){
+					// console.log(museum.name);
+					if(match){
 						console.log(markers);
+						for (var i = 0; i > markers.length; i++){
+							var currentMarker = markers[i];
+							console.log(currentMarker);
+							if(currentMarker.title === museum.name){
+								currentMarker.setMap(map);
+							}
+							else if (currentMarker.title !== museum.name) {
+								currentMarker.setVisible(false);
 
-					});
+							}
+						}
+
+					}
 
 					// console.log(typeof match);
 
