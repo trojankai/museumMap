@@ -125,7 +125,7 @@ function ViewModel() {
 
 
 		//set up markers for museum array
-	 addMarkers = function() {
+	 var addMarkers = function() {
 			for (var i = 0; i < self.museumList().length; i++) {
 				marker = new google.maps.Marker({
 					position: self.museumList()[i].location,
@@ -166,6 +166,7 @@ function ViewModel() {
 						infowindow.close();
 					});
 						return markers;
+
 		};
 
 	// console.log(this.museumList());
@@ -182,7 +183,7 @@ function ViewModel() {
 				infowindow.open(map, markers[i]);
 				infowindow.setContent(markers[i].title);
 				markers[i].setAnimation(google.maps.Animation.DROP);
-				// self.query = (this.name);
+				self.query = (this.name);
 				// console.log(self.query);
 			}
 
@@ -191,12 +192,31 @@ function ViewModel() {
 	//query--search/filter variable to use for data bind
 	self.query = ko.observable('');
 	self.search = ko.computed(function() {
+			// addMarkers();
 			return ko.utils.arrayFilter(self.museumList(), function(museum) {
 					//Match search with items in museumList observable array
 					var match = museum.name.toLowerCase().indexOf(self.query().toLowerCase()) >= 0;//returns boolean value
-				console.log(markers);
+					var markerMatch;
+					if(match && markers.length > 0){
+						// console.log(museum.name);
+						// console.log(marker);
 
-					// console.log(typeof match);
+						markers.forEach(function(item){
+							markerMatch = item.title.toLowerCase().indexOf(self.query().toLowerCase()) >= 0;
+							// console.log(item);
+							if(!markerMatch && museum.name !== item.title){
+								console.log(item);
+								item.setVisible(false);
+								// console.log(markerMatch);
+							} else {
+								item.setVisible(true);
+								// item.setMap(null);
+							}
+
+							return markerMatch;
+						});
+
+					}
 
 					return match;
 
