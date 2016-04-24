@@ -205,12 +205,10 @@ function ViewModel() {
 							markerMatch = item.title.toLowerCase().indexOf(self.query().toLowerCase()) >= 0;
 							// console.log(item);
 							if(!markerMatch && museum.name !== item.title){
-								console.log(item);
 								item.setVisible(false);
 								// console.log(markerMatch);
-							} else {
+							} else if (markerMatch && museum.name === item.title) {
 								item.setVisible(true);
-								// item.setMap(null);
 							}
 
 							return markerMatch;
