@@ -1,3 +1,4 @@
+
 var art = 'images/art_icon.svg';
 var cultural = 'images/culture_icon.svg';
 var science = 'images/tech_icon.svg';
@@ -89,7 +90,7 @@ var infowindow;
 var markers = [];
 var marker;
 var google;
-
+var initMap;
 
 function Museum(value) {
     this.name = ko.observable(value.name);
@@ -171,7 +172,7 @@ function ViewModel() {
 
 	// console.log(this.museumList());
 	//when list item is clicked, marker will DROP animate and infowindow will open
-	this.clickList = function(){
+	self.clickList = function(){
 		console.log(this.name);
 		infowindow.close();
 		console.log(markers);
@@ -192,35 +193,34 @@ function ViewModel() {
 	//query--search/filter variable to use for data bind
 	self.query = ko.observable('');
 	self.search = ko.computed(function() {
-			// addMarkers();
-			return ko.utils.arrayFilter(self.museumList(), function(museum) {
+		return ko.utils.arrayFilter(self.museumList(), function(museum) {
 					//Match search with items in museumList observable array
 					var match = museum.name.toLowerCase().indexOf(self.query().toLowerCase()) >= 0;//returns boolean value
+					// && markers.length > 0
 					var markerMatch;
-					if(match && markers.length > 0){
+					if(match){
+						console.log(museum.name);
+						markers.forEach(function(item){
+							item.setVisible(true);
+							});
+						}
 						// console.log(museum.name);
 						// console.log(marker);
-
 						markers.forEach(function(item){
 							markerMatch = item.title.toLowerCase().indexOf(self.query().toLowerCase()) >= 0;
 							// console.log(item);
 							if(!markerMatch && museum.name !== item.title){
 								item.setVisible(false);
+
 								// console.log(markerMatch);
 							} else if (markerMatch && museum.name === item.title) {
 								item.setVisible(true);
 							}
-
 							return markerMatch;
 						});
 
-					}
-
 					return match;
-
-
 			});
-
 	});
 
 
