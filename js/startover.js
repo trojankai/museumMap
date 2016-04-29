@@ -45,12 +45,12 @@ var initialMuseums = [
 	type: science
 	},
 	{
-	name: "The Peterson Automotive Museum",
+	name: "Petersen Automotive Museum",
 	location: {lat:34.062357, lng:-118.361123},
 	type: science
 	},
 	{
-	name: "Psychiatry an Industry of Death(aka Scientology Museum)",
+	name: "Psychiatry an Industry of Death",
 	location:{lat:34.097768,lng:-118.333751},
 	type: science
 	},
@@ -117,7 +117,8 @@ function ViewModel() {
 		};
 
     var self = this;
-
+		var $info;
+		var infoString;
 		self.museumList = ko.observableArray(initialMuseums);
 		self.currentMuseum = ko.observable();
 		console.log(self.museumList());//14 objects
@@ -135,11 +136,7 @@ function ViewModel() {
 					icon:self.museumList()[i].type,
 					animation: google.maps.Animation.DROP
 				});
-				// console.log(museumLocation);
-				// 	console.log(marker);
 				markers.push(marker);
-
-
 			}
 
 				console.log(markers);//14 markers
@@ -160,12 +157,28 @@ function ViewModel() {
 							marker.setAnimation(null);
 						},2000);//stops bouncing after 2 seconds
 					});
+					google.maps.event.addListener(marker, "click", function()
+        {
+            // Make an AJAX request to get the data
+            // The return will be put into the InfoWindow
+            $.ajax({
+                url: 'http://en.wikipedia.org/w/api.php?action=opensearch&search='+ this.title 	+' &format=json&callback=wikiCallback',
+								dataType: "jsonp",
+                success: function(data) {
+									var articleList = data[2].toString();
+									console.log(articleList);
+                    infowindow.setContent(articleList);
+                    infowindow.open(map, marker);
+                }
+            });
+        });
 				});
 					map.addListener('click', function() {
 						map.setCenter({lat:34.076472, lng: -118.287430});
 						map.setZoom(12);
 						infowindow.close();
 					});
+
 						return markers;
 
 		};
@@ -173,25 +186,80 @@ function ViewModel() {
 	// console.log(this.museumList());
 	//when list item is clicked, marker will DROP animate and infowindow will open
 	self.clickList = function(){
-		console.log(this.name);
 		infowindow.close();
-		console.log(markers);
 		for (var i = 0; i < markers.length; i++) {
 			if (this.name === markers[i].title){
 				map.setCenter(markers[i].position);
 				map.setZoom(16);
-				console.log(markers[i].title);
+				content = markers[i].title;
 				infowindow.open(map, markers[i]);
-				infowindow.setContent(markers[i].title);
+				infowindow.setContent(content);
 				markers[i].setAnimation(google.maps.Animation.DROP);
-				self.query = (this.name);
+				// self.query = ('');
 				// console.log(self.query);
 			}
+			this.addListener("click", function()
+		{
+				// Make an AJAX request to get the data
+				// The return will be put into the InfoWindow
+				$.ajax({
+						url: 'http://en.wikipedia.org/w/api.php?action=opensearch&search='+ this.name 	+' &format=json&callback=wikiCallback',
+						dataType: "jsonp",
+						success: function(data) {
+							var articleList = data[2].toString();
+							console.log(articleList);
+								infowindow.setContent(articleList);
+								infowindow.open(map, marker);
+						}
+				});
+		});
+			// Make an AJAX request to get the data
+			// The return will be put into the InfoWindow
 
 		}
 	};
 	//query--search/filter variable to use for data bind
 	self.query = ko.observable('');
+	// self.getInfo = ko.computed(function(){
+	// 	// console.log(infoString);
+	// 	// $info = $('#infowin');
+	// 	// console.log(self);
+	// 	//
+	// 	// var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search='+ this.name 	+' &format=json&callback=wikiCallback';
+	// 	//
+	// 	// var wikiTimeout = setTimeout(function(){
+	// 	// 	$info.text('unable to load any wiki information');
+	// 	// },8000);
+	// 	// $.ajax({
+	//   //     url: wikiUrl,
+	//   //     dataType: "jsonp",
+	//   //     //jsonp: "callback",
+	//   //     success: function(response){
+	//   //         var articleList = response[1];
+	//   //         console.log(articleList);
+	// 	//
+	//   //         for (var i = 0; i < articleList.length; i++){
+	//   //           articleStr = articleList[i];
+	// 	//
+	//   //           var url = 'http://en.wikipedia.org/wiki/' + articleStr;
+	//   //           $info.append('<li><a href="'+ url +'">' + articleStr +'</a></li>');
+	//   //           clearTimeout(wikiTimeout);
+	//   //         }
+	//   //     }
+	//   // });
+	// 	// return false;
+	// 	$.ajax({
+	// 			url: 'http://en.wikipedia.org/w/api.php?action=opensearch&search='+ this.name +' &format=json&callback=wikiCallback',
+	// 			dataType: "jsonp",
+	// 			success: function(data) {
+	// 				var articleList = data.toString();
+	// 				console.log(articleList);
+	// 					infowindow.setContent(articleList);
+	// 					infowindow.open(map, marker);
+	// 			}
+	// 	});
+	// 	// return false;
+	// });
 	self.search = ko.computed(function() {
 		return ko.utils.arrayFilter(self.museumList(), function(museum) {
 					//Match search with items in museumList observable array
@@ -225,5 +293,6 @@ function ViewModel() {
 
 
 }//end of ViewModel
+
 var vm = new ViewModel();
 ko.applyBindings(vm);

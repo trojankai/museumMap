@@ -1,7 +1,16 @@
 * {
   font-family: 'Titillium Web', sans-serif;
+  box-sizing: border-box;
 }
-
+#infowin{
+  position: absolute;
+  top: 0.5%;
+  left: 50%;
+  width:30%;
+  height:30%;
+  background-color: rgb(184, 182, 215);
+  display:none;
+}
 #listView{
   position: absolute;
   top: 10%;
