@@ -87,7 +87,7 @@ var content = '';
 //Declare Map variable and markers array
 var map;
 var infowindow;
-var markers = [];
+var markers=[];
 var marker;
 var google;
 var initMap;
@@ -117,12 +117,12 @@ function ViewModel() {
 		};
 
     var self = this;
-		var $info;
-		var infoString;
+
+		var infoString = '';
+		var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search='+ infoString	+' &format=json&callback=wikiCallback';
 		self.museumList = ko.observableArray(initialMuseums);
 		self.currentMuseum = ko.observable();
 		console.log(self.museumList());//14 objects
-
 
 
 
@@ -157,17 +157,20 @@ function ViewModel() {
 							marker.setAnimation(null);
 						},2000);//stops bouncing after 2 seconds
 					});
+					//ajax request on click
 					google.maps.event.addListener(marker, "click", function()
         {
-            // Make an AJAX request to get the data
+							infoString = this.title;
+							var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search='+ infoString	+' &format=json&callback=wikiCallback';
+					  // Make an AJAX request to get the data
             // The return will be put into the InfoWindow
             $.ajax({
-                url: 'http://en.wikipedia.org/w/api.php?action=opensearch&search='+ this.title 	+' &format=json&callback=wikiCallback',
+                url: wikiUrl,
 								dataType: "jsonp",
                 success: function(data) {
-									var articleList = data[2].toString();
-									console.log(articleList);
-                    infowindow.setContent(articleList);
+									 info = data[2].toString();
+									console.log(info);
+                    infowindow.setContent(info);
                     infowindow.open(map, marker);
                 }
             });
@@ -185,7 +188,7 @@ function ViewModel() {
 
 	// console.log(this.museumList());
 	//when list item is clicked, marker will DROP animate and infowindow will open
-	self.clickList = function(){
+	this.clickList = function(){
 		infowindow.close();
 		for (var i = 0; i < markers.length; i++) {
 			if (this.name === markers[i].title){
@@ -193,30 +196,41 @@ function ViewModel() {
 				map.setZoom(16);
 				content = markers[i].title;
 				infowindow.open(map, markers[i]);
-				infowindow.setContent(content);
+				infowindow.setContent(this.name);
 				markers[i].setAnimation(google.maps.Animation.DROP);
 				// self.query = ('');
 				// console.log(self.query);
 			}
-			this.addListener("click", function()
-		{
-				// Make an AJAX request to get the data
-				// The return will be put into the InfoWindow
-				$.ajax({
-						url: 'http://en.wikipedia.org/w/api.php?action=opensearch&search='+ this.name 	+' &format=json&callback=wikiCallback',
-						dataType: "jsonp",
-						success: function(data) {
-							var articleList = data[2].toString();
-							console.log(articleList);
-								infowindow.setContent(articleList);
-								infowindow.open(map, marker);
-						}
-				});
-		});
-			// Make an AJAX request to get the data
-			// The return will be put into the InfoWindow
 
-		}
+		}//end of for loop
+		infoString = this.name;
+		var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search='+ infoString	+' &format=json&callback=wikiCallback';
+	// Make an AJAX request to get the data
+	// The return will be put into the InfoWindow
+	$.ajax({
+			url: wikiUrl,
+			dataType: "jsonp",
+			success: function(data) {
+				 info = data[2].toString();
+				console.log(info);
+					infowindow.setContent(info);
+					infowindow.open(map, marker);
+			}
+	});
+		// document.getElementById('listItem').addListener('click',function(){
+		// 	$.ajax({
+		// 			url: 'http://en.wikipedia.org/w/api.php?action=opensearch&search='+ this.name 	+' &format=json&callback=wikiCallback',
+		// 			dataType: "jsonp",
+		// 			success: function(data) {
+		// 				 articleList = data[2].toString();
+		// 				console.log(articleList);
+		// 					infowindow.setContent(articleList);
+		// 					infowindow.open(map, marker);
+		// 			}
+		// 	});
+		//
+		// });
+
 	};
 	//query--search/filter variable to use for data bind
 	self.query = ko.observable('');
