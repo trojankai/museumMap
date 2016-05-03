@@ -16,14 +16,10 @@
   			padding: 0;
   		}
   		/*sets the map to the full view of the document*/
-      .container{
-      background-color: gray;
-        }
-  		#map {
-  			height: 100%;
-  			width: 70%;
-  			position: relative;
-        float: right;
+      #map {
+  			height: 100vh;
+  			width: 100vw;
+        background-color: gray;
   		}
 
 
@@ -32,7 +28,7 @@
   <body>
   <div class="container">
     <div id="map"></div>
-    <!-- <div id="infowin" data-bind="value:getInfo"></div> -->
+    <div class="help_bar"><span id="helper">?</span></div>
     <input placeholder="Search…" type="search" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off">
     <ul id="listView" data-bind="foreach: search">
       <li id="listItem" data-bind="text: $data.name, click:$parent.clickList"></li>
