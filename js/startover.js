@@ -73,24 +73,20 @@ var initialMuseums = [
 	name: "Chinese American Museum",
 	location: {lat:34.055629,lng:-118.239225},
 	type: cultural
-	},
-	{
-	name: "Los Angeles Museum of the Holocaust",
-	location: {lat:34.074523,lng:-118.355702},
-	type: cultural
 	}
+	// {
+	// name: "Los Angeles Museum of the Holocaust",
+	// location: {lat:34.074523,lng:-118.355702},
+	// type: cultural
+	// }
 ];
 
-//String to display in info window
-var content = '';
+
 
 //Declare Map variable and markers array
 var map;
-var infowindow;
-var markers=[];
-var marker;
-var google;
 var initMap;
+var google;
 
 function Museum(value) {
     this.name = ko.observable(value.name);
@@ -102,27 +98,56 @@ function Museum(value) {
 
 //ViewModel
 function ViewModel() {
-	//map properties to initialize
+	//map  and properties to initialize
 		initMap = function(){
 			var myLatLng = {lat:34.076472, lng: -118.287430};
+			var styleArray = [
+			{
+				featureType: "all",
+				stylers: [
+				 { saturation: -90 }
+				]
+			},{
+				featureType: "road.arterial",
+				elementType: "geometry",
+				stylers: [
+					{ hue: "#ff8383" },
+					{ saturation: 30 }
+				]
+			},{
+				featureType: "poi.business",
+				elementType: "labels",
+				stylers: [
+					{ visibility: "off" }
+				]
+			}
+		];
 			var mapOptions = {
 				center: myLatLng ,
-				zoom: 12,
+				zoom: 11,
 				mapTypeId: google.maps.MapTypeId.ROADMAP,
 				draggable: true,
-				disableDefaultUI: true
+				disableDefaultUI: true,
+				styles: styleArray
 			};
 			map = new google.maps.Map(document.getElementById('map'),mapOptions);
+			//adds markers to map
 			addMarkers();
 		};
 
     var self = this;
+		var infowindow;
+		var markers = [];
+		var marker;
+		function getInfo (){
+
+
+		}
 
 		var infoString = '';
-		var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search='+ infoString	+' &format=json&callback=wikiCallback';
 		self.museumList = ko.observableArray(initialMuseums);
-		self.currentMuseum = ko.observable();
-		console.log(self.museumList());//14 objects
+		// self.currentMuseum = ko.observable();
+		// console.log(self.museumList());//14 objects
 
 
 
@@ -157,7 +182,7 @@ function ViewModel() {
 							marker.setAnimation(null);
 						},2000);//stops bouncing after 2 seconds
 					});
-					//ajax request on click
+					//ajax request on marker click
 					google.maps.event.addListener(marker, "click", function()
         {
 							infoString = this.title;
@@ -168,17 +193,22 @@ function ViewModel() {
                 url: wikiUrl,
 								dataType: "jsonp",
                 success: function(data) {
-									 info = data[2].toString();
+									 info = data[2][0].toString();
+									 var link = data[3];
 									console.log(info);
-                    infowindow.setContent(info);
+									console.log(data);
+									console.log(infoString.link(link));
+                    infowindow.setContent(infoString.link(link)+':'+' '+info);
                     infowindow.open(map, marker);
+										infowindow.setOptions({maxWidth:250});
+
                 }
             });
         });
 				});
 					map.addListener('click', function() {
 						map.setCenter({lat:34.076472, lng: -118.287430});
-						map.setZoom(12);
+						map.setZoom(11);
 						infowindow.close();
 					});
 
@@ -189,6 +219,7 @@ function ViewModel() {
 	// console.log(this.museumList());
 	//when list item is clicked, marker will DROP animate and infowindow will open
 	this.clickList = function(){
+		map.setCenter({lat:34.076472, lng: -118.287430});
 		infowindow.close();
 		for (var i = 0; i < markers.length; i++) {
 			if (this.name === markers[i].title){
@@ -211,69 +242,19 @@ function ViewModel() {
 			url: wikiUrl,
 			dataType: "jsonp",
 			success: function(data) {
-				 info = data[2].toString();
+				 info = data[2][0].toString();
+				 var link = data[3];
 				console.log(info);
-					infowindow.setContent(info);
-					infowindow.open(map, marker);
+					infowindow.setContent(infoString.link(link)+':'+' '+info);
+
+					infowindow.setOptions({maxWidth:250});
+					infowindow.open(map, this.marker);
 			}
 	});
-		// document.getElementById('listItem').addListener('click',function(){
-		// 	$.ajax({
-		// 			url: 'http://en.wikipedia.org/w/api.php?action=opensearch&search='+ this.name 	+' &format=json&callback=wikiCallback',
-		// 			dataType: "jsonp",
-		// 			success: function(data) {
-		// 				 articleList = data[2].toString();
-		// 				console.log(articleList);
-		// 					infowindow.setContent(articleList);
-		// 					infowindow.open(map, marker);
-		// 			}
-		// 	});
-		//
-		// });
-
 	};
 	//query--search/filter variable to use for data bind
 	self.query = ko.observable('');
-	// self.getInfo = ko.computed(function(){
-	// 	// console.log(infoString);
-	// 	// $info = $('#infowin');
-	// 	// console.log(self);
-	// 	//
-	// 	// var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search='+ this.name 	+' &format=json&callback=wikiCallback';
-	// 	//
-	// 	// var wikiTimeout = setTimeout(function(){
-	// 	// 	$info.text('unable to load any wiki information');
-	// 	// },8000);
-	// 	// $.ajax({
-	//   //     url: wikiUrl,
-	//   //     dataType: "jsonp",
-	//   //     //jsonp: "callback",
-	//   //     success: function(response){
-	//   //         var articleList = response[1];
-	//   //         console.log(articleList);
-	// 	//
-	//   //         for (var i = 0; i < articleList.length; i++){
-	//   //           articleStr = articleList[i];
-	// 	//
-	//   //           var url = 'http://en.wikipedia.org/wiki/' + articleStr;
-	//   //           $info.append('<li><a href="'+ url +'">' + articleStr +'</a></li>');
-	//   //           clearTimeout(wikiTimeout);
-	//   //         }
-	//   //     }
-	//   // });
-	// 	// return false;
-	// 	$.ajax({
-	// 			url: 'http://en.wikipedia.org/w/api.php?action=opensearch&search='+ this.name +' &format=json&callback=wikiCallback',
-	// 			dataType: "jsonp",
-	// 			success: function(data) {
-	// 				var articleList = data.toString();
-	// 				console.log(articleList);
-	// 					infowindow.setContent(articleList);
-	// 					infowindow.open(map, marker);
-	// 			}
-	// 	});
-	// 	// return false;
-	// });
+
 	self.search = ko.computed(function() {
 		return ko.utils.arrayFilter(self.museumList(), function(museum) {
 					//Match search with items in museumList observable array
