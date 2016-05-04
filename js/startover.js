@@ -1,4 +1,4 @@
-
+//images that correspond to type
 var art = 'images/art_icon.svg';
 var cultural = 'images/culture_icon.svg';
 var science = 'images/tech_icon.svg';
@@ -217,7 +217,6 @@ function ViewModel() {
 			if (this.name === markers[i].title){
 				map.setCenter(markers[i].position);
 				map.setZoom(16);
-				content = markers[i].title;
 				infowindow.open(map, markers[i]);
 				infowindow.setContent(this.name);
 				markers[i].setAnimation(google.maps.Animation.DROP);
@@ -228,17 +227,16 @@ function ViewModel() {
 		var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search='+ infoString	+' &format=json&callback=wikiCallback';
 	// Make an AJAX request to get the data
 	// The return will be put into the InfoWindow
-	$.ajax({
-			url: wikiUrl,
-			dataType: "jsonp",
-			success: function(data) {
-			  info = data[2][0].toString();
-			  var link = data[3];
-				infowindow.setContent(infoString.link(link)+':'+' '+info);
-				infowindow.setOptions({maxWidth:200});
-				infowindow.open(map, this.marker);
-			}
-	});
+		$.ajax({
+				url: wikiUrl,
+				dataType: "jsonp",
+				success: function(data) {
+				  info = data[2][0].toString();
+				  var link = data[3];
+					infowindow.setContent(infoString.link(link)+':'+' '+info);
+					infowindow.setOptions({maxWidth:200});
+				}
+			});
 	};
 	//query--search/filter variable to use for data bind
 	self.query = ko.observable('');
