@@ -1,34 +1,45 @@
--<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
   <head>
+	  <title>Neighborhood Map Project: Udacity Project</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link async href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300italic,300' rel='stylesheet' type='text/css'>
-    <title>Neighborhood Map Project: Udacity Project</title>
+    <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300' rel='stylesheet' type='text/css'>
+
     <!-- link normalize css -->
     <link rel="stylesheet" href="css/lib/normalize.css" media="screen" charset="utf-8">
     <link rel="stylesheet" href="css/main.css">
     <style>
   		html,
-  		body,.container {
+  		body,
+      .container {
   			height: 100%;
   			margin: 0;
   			padding: 0;
   		}
   		/*sets the map to the full view of the document*/
       #map {
-  			height: 100vh;
-  			width: 100vw;
-        background-color: gray;
+  			height: 100%;
+  			width: 100%;
+
   		}
-
-
   	</style>
   </head>
+
   <body>
   <div class="container">
     <div id="map"></div>
-    <div class="help_bar"><span id="helper">?</span></div>
+    <div class="help_info">
+      <h1>Museums of Los Angeles</h1>
+      <p>To Zoom out of Location, click on Map (avoid other markers)</p>
+
+      <p>Marker Key: </p>
+      <span class="light">-Culture themed Museum<img src="images/culture_icon.svg" alt="cultural icon" class="icon"></span>
+      <span class="light">-Art themed Museum<img src="images/art_icon.svg" alt="art marker icon" class="icon"></span>
+      <span class="light">-Science/Technology themed Museum<img src="images/tech_icon.svg" alt="science/tech marker icon" class="icon"></span>
+      <p></p>
+    </div>
+    <button id="help_btn">?</button>
     <input placeholder="Search…" type="search" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off">
     <ul id="listView" data-bind="foreach: search">
       <li id="listItem" data-bind="text: $data.name, click:$parent.clickList"></li>
