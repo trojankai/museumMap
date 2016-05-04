@@ -83,7 +83,8 @@ var initialMuseums = [
 
 
 
-//Declare Map variable and markers array
+//Declare Map variable
+
 var map;
 var initMap;
 var google;
@@ -112,7 +113,7 @@ function ViewModel() {
 				elementType: "geometry",
 				stylers: [
 					{ hue: "#ff8383" },
-					{ saturation: 30 }
+					{ saturation: 60 }
 				]
 			},{
 				featureType: "poi.business",
@@ -139,12 +140,7 @@ function ViewModel() {
 		var infowindow;
 		var markers = [];
 		var marker;
-		function getInfo (){
-
-
-		}
-
-		var infoString = '';
+		var infoString = ko.observable('');
 		self.museumList = ko.observableArray(initialMuseums);
 		// self.currentMuseum = ko.observable();
 		// console.log(self.museumList());//14 objects
@@ -164,7 +160,7 @@ function ViewModel() {
 				markers.push(marker);
 			}
 
-				console.log(markers);//14 markers
+				// console.log(markers);//14 markers
 				// Map infowindows to each marker in markers array
 				markers.forEach(function(marker){
 				//create infowindow for each marker in the marker array
@@ -195,13 +191,9 @@ function ViewModel() {
                 success: function(data) {
 									 info = data[2][0].toString();
 									 var link = data[3];
-									console.log(info);
-									console.log(data);
-									console.log(infoString.link(link));
-                    infowindow.setContent(infoString.link(link)+':'+' '+info);
-                    infowindow.open(map, marker);
-										infowindow.setOptions({maxWidth:250});
-
+									infowindow.setContent(infoString.link(link)+':'+' '+info);
+                  infowindow.open(map, marker);
+									infowindow.setOptions({maxWidth:200});
                 }
             });
         });
@@ -229,9 +221,7 @@ function ViewModel() {
 				infowindow.open(map, markers[i]);
 				infowindow.setContent(this.name);
 				markers[i].setAnimation(google.maps.Animation.DROP);
-				// self.query = ('');
-				// console.log(self.query);
-			}
+		}
 
 		}//end of for loop
 		infoString = this.name;
@@ -242,13 +232,11 @@ function ViewModel() {
 			url: wikiUrl,
 			dataType: "jsonp",
 			success: function(data) {
-				 info = data[2][0].toString();
-				 var link = data[3];
-				console.log(info);
-					infowindow.setContent(infoString.link(link)+':'+' '+info);
-
-					infowindow.setOptions({maxWidth:250});
-					infowindow.open(map, this.marker);
+			  info = data[2][0].toString();
+			  var link = data[3];
+				infowindow.setContent(infoString.link(link)+':'+' '+info);
+				infowindow.setOptions({maxWidth:200});
+				infowindow.open(map, this.marker);
 			}
 	});
 	};
@@ -272,6 +260,7 @@ function ViewModel() {
 						markers.forEach(function(item){
 							markerMatch = item.title.toLowerCase().indexOf(self.query().toLowerCase()) >= 0;
 							// console.log(item);
+							//if name attached to marker and museum dont match, markers will disappear
 							if(!markerMatch && museum.name !== item.title){
 								item.setVisible(false);
 
@@ -289,5 +278,12 @@ function ViewModel() {
 
 }//end of ViewModel
 
+//instantiate new ViewModel
 var vm = new ViewModel();
 ko.applyBindings(vm);
+
+//toggle function for help_btn
+
+$('#help_btn').click(function(){
+	$('.help_info').slideToggle(400);
+});
