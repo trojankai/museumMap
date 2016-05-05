@@ -4,39 +4,9 @@
   margin: 0;
 }
 
-#listView{
-  position: absolute;
-  top: 5%;
-  left:10px;
-  max-width: 25%;
-  list-style: none;
-  padding:0;
-  margin: 0;
-  background-color: rgba(207, 180, 180, 0.65);
-}
-
-#listView>li{
-  font-size: 1em;
-  margin-bottom: 3px;
-  line-height: 1.5em;
-  border-bottom: 1px solid black;
-}
-
-#listView>li:hover{
-  color: white;
-  cursor: pointer;
-}
-
-input{
-  position: absolute;
-  top: 0;
-  left: 10px;
-  width: 24.5%;
-}
-
 .help_info{
-  height: 250px;
-  width: 300px;
+  height: 55%;
+  width: 60%;
   position: absolute;
   top: 48px;
   right: 10px;
@@ -45,7 +15,7 @@ input{
   font-size: .9em;
 }
 img.icon{
-  height:22px;
+  height: 22px;
   width: 25px;
 }
 .help_info>h1{
@@ -60,29 +30,34 @@ img.icon{
   height: 48px;
   background-color: rgba(238, 118, 101, 0.7);
   top: 0;
-  right: 10px;
-  color: white;
+  right: 10%;
+  color: rgb(36, 2, 2);
+  box-shadow: 0 1px 3px black;
   border: none;
 }
-span {
-  display: block;
+
+@media screen and (max-width:714px){
+  #listView{
+    max-height: 90%;
+    overflow: scroll;
+
+  }
+  #listItem{
+    margin-top: 10px;
+    font-size: 1.2em;
+  }
+
 }
-@media (max-width:768px) {
+@media (min-width:715px){
   *{
-    font-size: 12px;
-    font-weight: 200;
+    font-size: 14px;
+    font-weight: 300;
     }
-  .container {
-    overflow: auto;
-  }
-  input{
-    width: 50%;
-    left: 0;
-  }
+  
   #listView{
     left: 0;
     overflow: scroll;
-    max-width: 25%;
+    max-width: 10%;
     max-height: 90%;
   }
 
@@ -95,10 +70,11 @@ span {
 
   }
   #help_btn, .help_info{
-    right:0px;
+    right:2%;
   }
   .help_info{
     max-width: 70%;
-    padding: 0 0 0 5px;
+    max-height:20%
+
   }
 }
