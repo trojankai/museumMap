@@ -2,10 +2,11 @@
   font-family: 'Titillium Web', sans-serif;
   font-weight: 400;
   margin: 0;
+  font-size: 20px;
 }
 
 .help_info{
-  height: 55%;
+  height: auto;
   width: 60%;
   position: absolute;
   top: 48px;
@@ -30,7 +31,7 @@ img.icon{
   height: 48px;
   background-color: rgba(238, 118, 101, 0.7);
   top: 0;
-  right: 10%;
+  right: 5%;
   color: rgb(36, 2, 2);
   box-shadow: 0 1px 3px black;
   border: none;
@@ -39,6 +40,7 @@ img.icon{
 @media screen and (max-width:714px){
   #listView{
     max-height: 90%;
+    max-width: 25%;
     overflow: scroll;
 
   }
@@ -53,7 +55,7 @@ img.icon{
     font-size: 14px;
     font-weight: 300;
     }
-  
+
   #listView{
     left: 0;
     overflow: scroll;
@@ -73,8 +75,8 @@ img.icon{
     right:2%;
   }
   .help_info{
-    max-width: 70%;
-    max-height:20%
+    max-width: 40%;
+    max-height:40%
 
   }
 }

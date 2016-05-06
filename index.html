@@ -25,13 +25,14 @@
   		}
       #listView{
         position: absolute;
+        width: 300px;
         top: 5%;
         left:10px;
-        max-width: 25%;
         list-style: none;
         padding:0;
         margin: 0;
-        background-color: rgba(207, 180, 180, 0.65);
+        background-color: rgba(207, 180, 180, 0.25);
+        box-shadow: 0 1px 3px rgb(69, 69, 69);
       }
 
       #listView>li{
@@ -66,6 +67,8 @@
       <p class="light">-Culture themed Museum<img src="images/culture_icon.svg" alt="cultural icon" class="icon"></p>
       <p class="light">-Art themed Museum<img src="images/art_icon.svg" alt="art marker icon" class="icon"></p>
       <p class="light">-Science/Tech themed Museum<img src="images/tech_icon.svg" alt="science/tech marker icon" class="icon"></p>
+      <p>Use the Search bar to filter locations</p>
+      <p>To restore all locations, delete any characters in search bar</p>
 
     </div>
     <button id="help_btn">Help?</button>
@@ -82,6 +85,6 @@
 
 
 
-    <script async src="http://maps.googleapis.com/maps/api/js?v=3.23&key=AIzaSyDRkBXSXhu5njQZnozLK-utnXR3h-pQ-T8&libraries=places&callback=initMap" onerror="gMapError"></script>
+    <script async src="http://maps.googleapis.com/maps/api/js?v=3.23&key=AIzaSyDRkBXSXhu5njQZnozLK-utnXR3h-pQ-T8&libraries=places&callback=initMap" onerror="gMapError()"></script>
   </body>
 </html>
