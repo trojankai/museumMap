@@ -35,6 +35,7 @@ img.icon{
   color: rgb(36, 2, 2);
   box-shadow: 0 1px 3px black;
   border: none;
+  font-size: 14px;
 }
 
 @media screen and (max-width:714px){
