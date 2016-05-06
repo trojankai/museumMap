@@ -2,7 +2,7 @@
   font-family: 'Titillium Web', sans-serif;
   font-weight: 400;
   margin: 0;
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .help_info{
@@ -10,7 +10,7 @@
   width: 60%;
   position: absolute;
   top: 48px;
-  right: 10px;
+  right: 5%;
   background: rgba(238, 118, 101, 0.95);
   display: none;
   font-size: .9em;
@@ -36,6 +36,7 @@ img.icon{
   box-shadow: 0 1px 3px black;
   border: none;
   font-size: 14px;
+  text-align: center;
 }
 
 @media screen and (max-width:714px){
@@ -47,16 +48,11 @@ img.icon{
   }
   #listItem{
     margin-top: 10px;
-    font-size: 1.2em;
+    font-size: 1em;
   }
 
 }
 @media (min-width:715px){
-  *{
-    font-size: 14px;
-    font-weight: 300;
-    }
-
   #listView{
     left: 0;
     overflow: scroll;
@@ -65,19 +61,15 @@ img.icon{
   }
 
   li#listItem{
-    margin:0;
+    margin:5px 0;
     padding:0;
     line-height: 1.1em;
     line-spacing: 1.2em;
 
 
   }
-  #help_btn, .help_info{
-    right:2%;
-  }
   .help_info{
     max-width: 40%;
     max-height:40%
-
   }
 }
