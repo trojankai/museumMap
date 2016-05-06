@@ -110,11 +110,11 @@ function ViewModel() {
 									 var link = data[3];
 									infowindow.setContent(infoString.link(link)+':'+' '+info);
                   infowindow.open(map, marker);
-									infowindow.setOptions({maxWidth:200});
+									infowindow.setOptions({maxWidth:150});
                 },
                 error: function(){
                   infowindow.setContent('Unable to get info about '+ infoString+ ' '+'just know that it is AWESOME');
-                  infowindow.setOptions({maxWidth:200});
+                  infowindow.setOptions({maxWidth:150});
                 }
 						});
 
@@ -157,13 +157,13 @@ function ViewModel() {
 				  info = data[2][0].toString();
 				  var link = data[3];
 					infowindow.setContent(infoString.link(link)+':'+' '+info);
-					infowindow.setOptions({maxWidth:200});
+					infowindow.setOptions({maxWidth:150});
 
 
 				},
         error: function(){
           infowindow.setContent('Unable to get info about '+ infoString+ ' '+'just know that it is AWESOME');
-          infowindow.setOptions({maxWidth:200});
+          infowindow.setOptions({maxWidth:150});
         }
 
 			});
@@ -214,11 +214,10 @@ $('#help_btn').click(function(){
 	$('.help_info').slideToggle(400);
 });
 
-//error handler for map load/reloads page
+//error handler for map
 function gMapError(){
-	if (initMap === undefined){
-		// location.reload();
-		alert('Having trouble loading google maps, ');
-	}
+
+	alert('unable to load map, please refresh the page');
+
 
 }
