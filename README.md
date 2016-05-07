@@ -7,9 +7,10 @@ Download the .zip file and open the index.html, or for the live version, go to [
 The minified files have been used in the live version, but the "pretty" files are in the src folder.
 
 ### Technologies used
-Code Editor — Atom
-Libraries — KnockoutJS and jQuery
-Build tools — Gulp
-Chrome DevTools
+- Code Editor — Atom
+- Libraries — KnockoutJS and jQuery
+- Build tools — Gulp
+- Chrome DevTools
+
 ### Refenences used
 The Forums were invaluable for this project, also I used StackOverflow and a website that specifically gave insight to the filter utility function in Knockout was [http://www.knockmeout.net/2011/04/utility-functions-in-knockoutjs.html]
