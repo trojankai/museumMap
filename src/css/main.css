@@ -4,7 +4,51 @@
   margin: 0;
   font-size: 16px;
 }
+html,
+body,
+.container {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+/*sets the map to the full view of the document*/
+#map {
+  height: 100%;
+  width: 100%;
 
+}
+#listView{
+  position: absolute;
+  width: 300px;
+  top: 5%;
+  left:10px;
+  list-style: none;
+  padding:0;
+  margin: 0;
+  background-color: rgba(207, 180, 180, 0.25);
+  box-shadow: 0 1px 3px rgb(69, 69, 69);
+}
+
+#listView>li{
+  font-size: 1em;
+  font-weight: 700;
+  margin-bottom: 3px;
+  line-height: 1.7em;
+  border-bottom: 1px solid black;
+}
+
+#listView>li:hover{
+  color: rgb(255, 111, 111);
+  background: rgba(255, 255, 255, 0.71);
+  cursor: pointer;
+}
+
+input{
+  position: absolute;
+  top: 0;
+  left: 10px;
+  width: 24.5%;
+}
 .help_info{
   height: auto;
   width: 60%;
