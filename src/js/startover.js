@@ -110,11 +110,11 @@ function ViewModel() {
 									 var link = data[3];
 									infowindow.setContent(infoString.link(link)+':'+' '+info);
                   infowindow.open(map, marker);
-									infowindow.setOptions({maxWidth:150});
+									infowindow.setOptions({maxWidth:200});
                 },
                 error: function(){
                   infowindow.setContent('Unable to get info about '+ infoString+ ' '+'just know that it is AWESOME');
-                  infowindow.setOptions({maxWidth:150});
+                  infowindow.setOptions({maxWidth:200});
                 }
 						});
 
