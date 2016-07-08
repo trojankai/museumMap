@@ -158,14 +158,11 @@ function ViewModel() {
 				  var link = data[3];
 					infowindow.setContent(infoString.link(link)+':'+' '+info);
 					infowindow.setOptions({maxWidth:150});
-
-
 				},
         error: function(){
           infowindow.setContent('Unable to get info about '+ infoString+ ' '+'just know that it is AWESOME');
           infowindow.setOptions({maxWidth:150});
         }
-
 			});
 	};
 	//query--search/filter variable to use for data bind
@@ -199,8 +196,6 @@ function ViewModel() {
 					return match;
 			});
 	});
-
-
 }//end of ViewModel
 
 //instantiate new ViewModel
