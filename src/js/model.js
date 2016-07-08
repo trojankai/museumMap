@@ -1,7 +1,7 @@
 //images that correspond to type
-var art = 'images/art_icon.svg';
-var cultural = 'images/culture_icon.svg';
-var science = 'images/tech_icon.svg';
+var art = 'images/art_icon.png';
+var cultural = 'images/culture_icon.png';
+var science = 'images/tech_icon.png';
 
 var initialMuseums = [
 	{
