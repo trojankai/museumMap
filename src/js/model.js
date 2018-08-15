@@ -16,7 +16,7 @@ var initialMuseums = [
 	type: art
 	},
 	{
-	name: "The Grammy Museum",
+	name: "Grammy Museum at L.A. Live",
 	location: {lat:34.044902,
 		lng:-118.264815},
 	type: art
